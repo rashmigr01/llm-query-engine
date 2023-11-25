@@ -41,14 +41,15 @@ def upsert_vectors(client, index_name, json_path, meta_path):
 
 if __name__ == "__main__":
 
-    qdrant_url = "http://localhost:6333"
     index_name = 'product_embeddings'
     dimension = 768
     json_path = './qdrant_payload.json'
     meta_path = './metadata.json'
 
-    client = QdrantClient(qdrant_url)
+    client = QdrantClient(
+                            url="https://e274dc64-5827-4dd7-b39c-df002a2b34d2.us-east4-0.gcp.cloud.qdrant.io:6333", 
+                            api_key="uA29yEhCIXweeTV6ZDuCRSEms2hjICwfi6HLEBfwduJJH2ye4pjeYQ",
+                        )
 
-    delete_index(client, index_name)
     create_index(client, index_name, dimension)
     upsert_vectors(client, index_name, json_path, meta_path)
