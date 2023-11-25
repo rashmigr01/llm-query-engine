@@ -14,7 +14,7 @@ def create_index(client, index_name, dimension):
     )
     print(f"Index '{index_name}' created successfully.")
 
-def upsert_vectors(client, index_name, json_path, meta_path):
+def upsert_vectors(client, index_name, json_path, meta_path, batch_size=100):
     with open(json_path, 'r') as json_file:
         payload = json.load(json_file)
 
@@ -27,29 +27,32 @@ def upsert_vectors(client, index_name, json_path, meta_path):
     total_vectors = len(ids)
     print(f"Total vectors to upsert: {total_vectors}")
 
-    for i, (vector, id, meta_info) in enumerate(zip(vectors, ids, meta)):
+    for i in range(0, total_vectors, batch_size):
+        batch_vectors = vectors[i:i+batch_size]
+        batch_ids = ids[i:i+batch_size]
+        batch_meta = meta[i:i+batch_size]
 
-        point = models.PointStruct(
-            id=id,
-            payload=meta_info,
-            vector=vector
-        )
+        batch_points = [
+            models.PointStruct(id=id, payload=meta_info, vector=vector)
+            for vector, id, meta_info in zip(batch_vectors, batch_ids, batch_meta)
+        ]
 
-        client.upsert(collection_name=index_name, points=[point])
+        client.upsert(collection_name=index_name, points=batch_points)
 
-        print(f"Vector {i+1}/{total_vectors} upserted successfully.")
+        print(f"Vectors {i+1}-{min(i+batch_size, total_vectors)} upserted successfully.")
 
 if __name__ == "__main__":
-
     index_name = 'product_embeddings'
     dimension = 768
     json_path = './qdrant_payload.json'
     meta_path = './metadata.json'
 
     client = QdrantClient(
-                            url="https://e274dc64-5827-4dd7-b39c-df002a2b34d2.us-east4-0.gcp.cloud.qdrant.io:6333", 
-                            api_key="uA29yEhCIXweeTV6ZDuCRSEms2hjICwfi6HLEBfwduJJH2ye4pjeYQ",
-                        )
+        url="https://e274dc64-5827-4dd7-b39c-df002a2b34d2.us-east4-0.gcp.cloud.qdrant.io:6333", 
+        api_key="uA29yEhCIXweeTV6ZDuCRSEms2hjICwfi6HLEBfwduJJH2ye4pjeYQ",
+        timeout=10000000
+    )
 
+    #delete_index(client, index_name)
     create_index(client, index_name, dimension)
-    upsert_vectors(client, index_name, json_path, meta_path)
+    upsert_vectors(client, index_name, json_path, meta_path, batch_size=100)
