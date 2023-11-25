@@ -161,3 +161,6 @@ cython_debug/
 
 embeddings.csv
 modified_embeddings.csv
+
+qdrant_payload.json
+metadata.json
