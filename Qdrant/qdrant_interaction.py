@@ -1,7 +1,8 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
-import pandas as pd
 import json
+import os
+from dotenv import load_dotenv
 
 def delete_index(client, index_name):
     client.delete_collection(collection_name=index_name)
@@ -47,11 +48,12 @@ if __name__ == "__main__":
     json_path = './qdrant_payload.json'
     meta_path = './metadata.json'
 
-    client = QdrantClient(
-        url="https://e274dc64-5827-4dd7-b39c-df002a2b34d2.us-east4-0.gcp.cloud.qdrant.io:6333", 
-        api_key="uA29yEhCIXweeTV6ZDuCRSEms2hjICwfi6HLEBfwduJJH2ye4pjeYQ",
-        timeout=10000000
-    )
+    load_dotenv()
+
+    qdrant_url = os.getenv("QDRANT_URL")
+    qdrant_api_key = os.getenv("QDRANT_API_KEY")
+
+    client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key, timeout=100)
 
     #delete_index(client, index_name)
     create_index(client, index_name, dimension)

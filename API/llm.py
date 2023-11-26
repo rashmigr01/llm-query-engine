@@ -2,13 +2,17 @@ from transformers import AutoTokenizer, AutoModel, T5Tokenizer, T5ForConditional
 from qdrant_client import QdrantClient
 import torch
 import json
+import os
+from dotenv import load_dotenv
 
 class LanguageModel:
     def __init__(self, index_name="product_embeddings"):
-        self.client = QdrantClient(
-                            url="https://e274dc64-5827-4dd7-b39c-df002a2b34d2.us-east4-0.gcp.cloud.qdrant.io:6333", 
-                            api_key="uA29yEhCIXweeTV6ZDuCRSEms2hjICwfi6HLEBfwduJJH2ye4pjeYQ",
-                        )
+        load_dotenv()
+
+        qdrant_url = os.getenv("QDRANT_URL")
+        qdrant_api_key = os.getenv("QDRANT_API_KEY")
+
+        self.client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key)
         self.index_name = index_name
 
     def text_to_vector(self, text):
