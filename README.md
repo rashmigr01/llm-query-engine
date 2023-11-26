@@ -4,14 +4,15 @@
 A query engine in the form of a Flask API which implements an LLM on the queries of a Qdrant vector database sourced from the BigBasketProducts dataset.
 
 The architecture of this query engine can be seen in the below representation:
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![image](https://github.com/rashmigr01/llm-query-engine/assets/77162931/33abab0a-dfa0-453c-bb24-ef44abf04d36)
+
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
 
 - [Run Locally](#run-locally)
 
-- [Development Operations](#development-options)
+- [Development Operations](#development-operations)
 
 - [Examples](#examples)
 
