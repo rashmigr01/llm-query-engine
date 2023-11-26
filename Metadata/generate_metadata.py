@@ -11,7 +11,7 @@ for _, row in original_data.iterrows():
     metadata_dict = {col: row[col] if not pd.isna(row[col]) else "missing" for col in metadata_columns}
     metadata.append(metadata_dict)
 
-metadata_json_path = 'metadata.json'
+metadata_json_path = '../Qdrant/metadata.json'
 with open(metadata_json_path, 'w') as json_file:
     json.dump(metadata, json_file)
 

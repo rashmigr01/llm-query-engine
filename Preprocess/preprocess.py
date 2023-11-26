@@ -25,5 +25,5 @@ if __name__ == "__main__":
     
     preprocessed_data = df.apply(preprocess_text, axis=1)
 
-    preprocessed_data.to_pickle('./preprocessed_data.pkl')
+    preprocessed_data.to_pickle('../Embeddings/preprocessed_data.pkl')
     preprocessed_data.to_csv('./preprocessed_data.csv', index=False)

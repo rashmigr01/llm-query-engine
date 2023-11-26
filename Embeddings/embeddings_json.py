@@ -15,5 +15,5 @@ def csv_to_json(csv_path, json_path):
 
 if __name__ == "__main__":
     csv_path = './modified_embeddings.csv'
-    json_path = 'qdrant_payload.json'
+    json_path = '../Qdrant/qdrant_payload.json'
     csv_to_json(csv_path, json_path)
