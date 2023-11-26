@@ -1,0 +1,8 @@
+pip==23.3.1
+pandas==2.0.1
+spacy==3.7.2
+transformers==4.35.2
+torch==1.10.0
+flask==3.0.0
+tqdm==4.66.1
+qdrant-client==1.6.9
